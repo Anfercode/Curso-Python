@@ -15,7 +15,6 @@ def list_clients():
     global clients
 
     print(clients)
-    print(clients)
 
 def update_client(client_name,updated_client_name):
     global clients
@@ -23,8 +22,18 @@ def update_client(client_name,updated_client_name):
         clients = clients.replace(client_name + ',' ,updated_client_name +',')
         list_clients()
     else:
-        print('client is not in client list')
+        print('client is not in clients list')
     
+
+def delete_client(client_name):
+    global clients
+
+    if client_name in clients:
+        clients = clients.replace(client_name + ',', '')
+        list_clients()
+    else:
+        print('client is not in clients list')
+
 
 def _add_comma():
     global clients
@@ -52,11 +61,15 @@ if __name__ == '__main__':
         client_name = _get_client_name()
         create_client(client_name)
         list_clients()
+        
     elif command == 'D':
-        pass
+        client_name = _get_client_name()
+        delete_client(client_name)
+
     elif command == 'U':
         client_name = _get_client_name()
-        updated_client_name = input('what is the updated client name')
+        updated_client_name = input('what is the updated client name: ')
         update_client(client_name , updated_client_name)
+
     else:
         print('Invalid Command')
