@@ -1,3 +1,5 @@
+'''Clientes'''
+
 
 import sys
 
@@ -5,7 +7,7 @@ clients = 'tomas,juan,'
 
 def create_client(client_name):
     global clients
-    
+
     if client_name not in clients:
         clients += client_name
         _add_comma()
@@ -24,7 +26,7 @@ def update_client(client_name,updated_client_name):
         list_clients()
     else:
         print('client is not in clients list')
-    
+
 
 def delete_client(client_name):
     global clients
@@ -37,7 +39,7 @@ def delete_client(client_name):
 
 def search_client(client_name):
     global clients
-    
+
     clients_list = clients.split(',')
 
     for client in clients_list:
@@ -79,7 +81,7 @@ def _print_welcome():
 
 if __name__ == '__main__':
     _print_welcome()
-    
+
     command = input()
     command = command.upper()
 
@@ -87,7 +89,7 @@ if __name__ == '__main__':
         client_name = _get_client_name()
         create_client(client_name)
         list_clients()
-        
+
     elif command == 'D':
         client_name = _get_client_name()
         delete_client(client_name)
