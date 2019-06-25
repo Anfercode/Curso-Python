@@ -1,22 +1,27 @@
 '''Clientes'''
 
-
 import sys
+import csv
 
-clients = [
-    {
-        'Name' : 'Pablo',
-        'Company' : 'google',
-        'Email' : 'Pablo@google.com',
-        'Position' : 'Software engineer',
-    },
-    {
-        'Name' : 'Ricardo',
-        'Company' : 'Facebook',
-        'Email' : 'Ricardo@facebook.com',
-        'Position' : 'Data engineer',
-    },
-]
+CLIENT_TABLE = '.\clients.csv'
+CLIENT_SCHEMA = ['Name','Company','Email','Position']
+
+clients = []
+# ! incompleto de linea 10 - 24
+def _initialize_clients_from_storage():
+    with open(CLIENT_TABLE,m='r') as f:
+        reader = csv.DictReader(f,fieldnames=[])
+
+        for row in reader:
+            clients.append(row)
+
+
+def _save_clients_to_storage():
+    tmp_table_name = f'{CLIENT_TABLE}.tmp'
+    with open(tmp_table_name,mode='w') as f:
+        writer = csv.DictWriter(f,fieldnames=CLIENT_SCHEMA)
+        writer.writerow(clients)
+
 
 def create_client(client):
     global clients
