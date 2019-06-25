@@ -1,22 +1,36 @@
 '''Clientes'''
 
-
 import sys
+import csv
+import os
 
-clients = [
-    {
-        'Name' : 'Pablo',
-        'Company' : 'google',
-        'Email' : 'Pablo@google.com',
-        'Position' : 'Software engineer',
-    },
-    {
-        'Name' : 'Ricardo',
-        'Company' : 'Facebook',
-        'Email' : 'Ricardo@facebook.com',
-        'Position' : 'Data engineer',
-    },
-]
+CLIENT_TABLE = './clients.csv'
+CLIENT_SCHEMA = ['Name','Company','Email','Position']
+
+clients = []
+
+
+def _initialize_clients_from_storage():
+    global clients
+
+    with open(CLIENT_TABLE,'r') as f:
+        reader = csv.DictReader(f,CLIENT_SCHEMA)
+
+        for row in reader:
+            clients.append(row)
+
+
+def _save_clients_to_storage():
+
+    tmp_table_name = f'{CLIENT_TABLE}.tmp'
+    with open(tmp_table_name,'w') as f:
+        writer = csv.DictWriter(f,fieldnames=CLIENT_SCHEMA)
+        writer.writerows(clients)
+
+        os.remove(CLIENT_TABLE)
+        f.close()
+        os.rename(tmp_table_name,CLIENT_TABLE)
+
 
 def create_client(client):
     global clients
@@ -30,8 +44,11 @@ def create_client(client):
 def list_clients():
     global clients
 
-    for idx, client in enumerate(clients):
-        print(f"{idx},{client['Name']},{client['Company']},{client['Email']},{client['Position']}")
+    print('uid |  name  | company  | email  | position ')
+    print('*' * 50)
+
+    for uid, client in enumerate(clients):
+        print(f"{uid} |  {client['Name']} |  {client['Company']} |  {client['Email']} |  {client['Position']}")
 
 
 def update_client(client_name):
@@ -55,10 +72,10 @@ def update_client(client_name):
             elif command == 'A':
                 clients[id] = _input_client_info()
 
-            list_clients()
             return None
 
     print(f'The client {client_name} is not in our client\'s list')
+
 
 def delete_client(client_name):
     global clients
@@ -66,7 +83,6 @@ def delete_client(client_name):
     for id, client in enumerate(clients):
         if client_name == client['Name']:
             clients.pop(id)
-            list_clients()
             return None
 
     print('client is not in clients list')
@@ -127,6 +143,7 @@ def _print_options(option):
         print('*'*50)
         print('what do you do today?')
         print('[C]reate Client')
+        print('[L]ist Client')
         print('[U]pdate Client')
         print('[D]elete Client')
         print('[S]earch Client')
@@ -145,6 +162,8 @@ def _print_options(option):
 
 if __name__ == '__main__':
 
+    _initialize_clients_from_storage()
+
     while True:
 
         _print_options('W')
@@ -154,8 +173,10 @@ if __name__ == '__main__':
 
         if command == 'C':
             create_client(_input_client_info())
-            list_clients()
 
+        if command == 'L':
+            list_clients()
+            
         elif command == 'D':
             client_name = _get_client_name()
             delete_client(client_name)
@@ -172,7 +193,9 @@ if __name__ == '__main__':
             else:
                 print(f'The client {client_name} is not in our client\'s list')
         elif command == 'E':
+            _save_clients_to_storage()
             print('Thanks for using us')
+            
             break
         else:
             print('Invalid Command')
