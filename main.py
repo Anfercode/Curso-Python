@@ -2,7 +2,6 @@
 
 import sys
 import csv
-<<<<<<< HEAD
 import os
 
 CLIENT_TABLE = './clients.csv'
@@ -16,24 +15,12 @@ def _initialize_clients_from_storage():
 
     with open(CLIENT_TABLE,'r') as f:
         reader = csv.DictReader(f,CLIENT_SCHEMA)
-=======
-
-CLIENT_TABLE = '.\clients.csv'
-CLIENT_SCHEMA = ['Name','Company','Email','Position']
-
-clients = []
-# ! incompleto de linea 10 - 24
-def _initialize_clients_from_storage():
-    with open(CLIENT_TABLE,m='r') as f:
-        reader = csv.DictReader(f,fieldnames=[])
->>>>>>> f3065944f6bf9cdc7339941bb96084df46f2985e
 
         for row in reader:
             clients.append(row)
 
 
 def _save_clients_to_storage():
-
     tmp_table_name = f'{CLIENT_TABLE}.tmp'
     with open(tmp_table_name,'w') as f:
         writer = csv.DictWriter(f,fieldnames=CLIENT_SCHEMA)
@@ -188,7 +175,7 @@ if __name__ == '__main__':
 
         if command == 'L':
             list_clients()
-            
+
         elif command == 'D':
             client_name = _get_client_name()
             delete_client(client_name)
@@ -207,7 +194,7 @@ if __name__ == '__main__':
         elif command == 'E':
             _save_clients_to_storage()
             print('Thanks for using us')
-            
+
             break
         else:
             print('Invalid Command')
