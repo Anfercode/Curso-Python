@@ -2,6 +2,7 @@
 
 import sys
 import csv
+<<<<<<< HEAD
 import os
 
 CLIENT_TABLE = './clients.csv'
@@ -15,6 +16,17 @@ def _initialize_clients_from_storage():
 
     with open(CLIENT_TABLE,'r') as f:
         reader = csv.DictReader(f,CLIENT_SCHEMA)
+=======
+
+CLIENT_TABLE = '.\clients.csv'
+CLIENT_SCHEMA = ['Name','Company','Email','Position']
+
+clients = []
+# ! incompleto de linea 10 - 24
+def _initialize_clients_from_storage():
+    with open(CLIENT_TABLE,m='r') as f:
+        reader = csv.DictReader(f,fieldnames=[])
+>>>>>>> f3065944f6bf9cdc7339941bb96084df46f2985e
 
         for row in reader:
             clients.append(row)
